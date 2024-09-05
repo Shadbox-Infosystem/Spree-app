@@ -1,0 +1,15 @@
+<!-- app/views/spree/orders/show.html.erb -->
+<h1>Order Details</h1>
+
+<% @order.shipments.each do |shipment| %>
+  <div>
+    <p>Shipment Number: <%= shipment.number %></p>
+    <p>Status: <%= shipment.state.capitalize %></p>
+    
+    <% if shipment.state == 'shipped' %>
+      <%= button_to 'Leave a review', new_product_review_path(product_id: shipment.line_items.first.variant.product_id), method: :get, style: 'background-color: black; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; cursor: pointer; border-radius: 4px;' %>
+    <% else %>
+      <p>You can leave a review once the product is delivered.</p>
+    <% end %>
+  </div>
+<% end %>
