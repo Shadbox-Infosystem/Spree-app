@@ -61,6 +61,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_01_101241) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "feedback_reviews", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "review_id", null: false
+    t.integer "rating", default: 0
+    t.text "comment"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["review_id"], name: "index_feedback_reviews_on_review_id"
+    t.index ["user_id"], name: "index_feedback_reviews_on_user_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.bigint "sluggable_id", null: false
@@ -299,18 +310,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_01_101241) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["variant_id"], name: "index_spree_digitals_on_variant_id"
-  end
-
-  create_table "spree_feedback_reviews", id: :serial, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "review_id", null: false
-    t.integer "rating", default: 0
-    t.text "comment"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "locale", default: "en"
-    t.index ["review_id"], name: "index_spree_feedback_reviews_on_review_id"
-    t.index ["user_id"], name: "index_spree_feedback_reviews_on_user_id"
   end
 
   create_table "spree_gateways", force: :cascade do |t|
@@ -1077,9 +1076,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_01_101241) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "user_id"
     t.string "ip_address"
-    t.string "locale", default: "en"
-    t.boolean "show_identifier", default: true
-    t.index ["show_identifier"], name: "index_spree_reviews_on_show_identifier"
   end
 
   create_table "spree_role_users", force: :cascade do |t|
